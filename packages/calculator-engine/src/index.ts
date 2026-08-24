@@ -13,3 +13,12 @@ export {
   type RetirementYearRow,
 } from "./retirement";
 export { round2 } from "./round";
+export { CalcError } from "./calc-error";
+
+export * from "./finance";
+export * from "./health";
+export * from "./mathmore";
+export * from "./gen";
+export * from "./convert";
+export * from "./datetime2";
+export { RUNNERS, type Runner } from "./registry";

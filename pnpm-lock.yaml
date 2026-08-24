@@ -125,6 +125,10 @@ importers:
         version: 5.9.3
 
   packages/calculator-engine:
+    dependencies:
+      '@calc/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       '@types/node':
         specifier: ^22
