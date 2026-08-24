@@ -1,15 +1,30 @@
 import type { MetadataRoute } from "next";
-import { CALCULATORS } from "@/lib/calculators";
+import { CALCULATOR_DEFS, LOCALES } from "@calc/shared";
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  return [
-    { url: base, changeFrequency: "weekly", priority: 1 },
-    { url: `${base}/calculators`, changeFrequency: "weekly", priority: 0.9 },
-    ...CALCULATORS.map((calc) => ({
-      url: `${base}/calculators/${calc.slug}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
-  ];
+  const entries: MetadataRoute.Sitemap = [];
+
+  for (const locale of LOCALES) {
+    entries.push({
+      url: `${BASE}/${locale}`,
+      changeFrequency: "weekly",
+      priority: 1,
+    });
+    entries.push({
+      url: `${BASE}/${locale}/calculators`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    });
+    for (const def of CALCULATOR_DEFS) {
+      entries.push({
+        url: `${BASE}/${locale}/calculators/${def.slug}`,
+        changeFrequency: "monthly",
+        priority: 0.8,
+      });
+    }
+  }
+
+  return entries;
 }

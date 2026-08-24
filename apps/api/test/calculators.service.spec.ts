@@ -35,3 +35,38 @@ describe("CalculatorsService", () => {
     ).toThrow();
   });
 });
+
+describe("CalculatorsService.compute (generic registry path)", () => {
+  const service = new CalculatorsService();
+
+  it("computes via def validation + engine runner", () => {
+    const out: any = service.compute("loan-payment", {
+      principal: 12000,
+      annualRatePct: 0,
+      years: 1,
+    });
+    expect(out.monthlyPayment).toBeCloseTo(1000, 2);
+  });
+
+  it("maps CalcError to a code-carrying BadRequestException", () => {
+    try {
+      service.compute("credit-card-payoff", {
+        balance: 100000,
+        aprPct: 24,
+        monthlyPayment: 10,
+      });
+      throw new Error("should not reach");
+    } catch (e: any) {
+      expect(e.getStatus).toBeDefined();
+      expect(e.getResponse().message).toBe("ERR_PAYMENT_TOO_LOW");
+    }
+  });
+
+  it("404 for unknown slug", () => {
+    try {
+      service.compute("nope", {});
+    } catch (e: any) {
+      expect(e.getStatus?.()).toBe(404);
+    }
+  });
+});
