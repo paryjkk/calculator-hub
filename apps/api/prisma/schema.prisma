@@ -1,0 +1,50 @@
+// Prisma schema — canonical per DATABASE-SCHEMA.md
+// Auth/SavedCalculations wiring lands with the Auth milestone (STEP 10).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum CalculatorType {
+  LOAN_PAYMENT
+  LOAN_AMORTIZATION
+  AGE
+  RETIREMENT
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  passwordHash String
+  displayName  String
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  savedCalculations SavedCalculation[]
+}
+
+model SavedCalculation {
+  id             String         @id @default(uuid()) @db.Uuid
+  userId         String         @db.Uuid
+  calculatorType CalculatorType
+  name           String
+  inputs         Json
+  result         Json
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+}

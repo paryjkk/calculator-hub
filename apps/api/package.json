@@ -1,0 +1,37 @@
+{
+  "name": "@calc/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nest start --watch",
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@calc/engine": "workspace:*",
+    "@calc/shared": "workspace:*",
+    "@nestjs/common": "^11",
+    "@nestjs/core": "^11",
+    "@nestjs/jwt": "^11",
+    "@nestjs/platform-express": "^11",
+    "@prisma/client": "^6",
+    "argon2": "^0.45.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14",
+    "cookie-parser": "^1.4.7",
+    "ioredis": "^6.0.0",
+    "reflect-metadata": "^0.2",
+    "rxjs": "^7.8"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5",
+    "@types/node": "^22",
+    "prisma": "^6.19.3",
+    "typescript": "^5",
+    "vitest": "^2"
+  }
+}
