@@ -79,3 +79,13 @@ model ContactMessage {
 
   @@index([handled, createdAt(sort: Desc)])
 }
+
+/// Server-side refresh-token rotation state (replaces Redis rt:{userId}:{jti})
+model RefreshToken {
+  jti       String   @id
+  userId    String   @db.Uuid
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
