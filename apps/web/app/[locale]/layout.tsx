@@ -6,6 +6,7 @@ import "../globals.css";
 import type { Locale } from "@calc/shared";
 import { LOCALES } from "@calc/shared";
 import AnalyticsScripts from "@/components/AnalyticsScripts";
+import AccountMenu from "@/components/AccountMenu";
 import LangSwitch from "@/components/LangSwitch";
 import Logo from "@/components/Logo";
 import QueryProvider from "@/components/QueryProvider";
@@ -109,6 +110,16 @@ export default async function LocaleLayout({
                   {dict.navAll}
                 </Link>
                 <LangSwitch locale={locale} label={dict.navLangSwitch} />
+                <AccountMenu
+                  locale={locale}
+                  labels={{
+                    account: dict.account,
+                    login: dict.login,
+                    register: dict.register,
+                    admin: dict.adminPanel,
+                    myAccount: dict.account,
+                  }}
+                />
               </nav>
             </div>
           </header>

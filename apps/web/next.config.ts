@@ -1,7 +1,31 @@
 import type { NextConfig } from "next";
 
+const API_PROXY_URL =
+  process.env.API_PROXY_URL ?? "http://localhost:3001";
+
 const nextConfig: NextConfig = {
   transpilePackages: ["@calc/engine", "@calc/shared"],
+  async rewrites() {
+    if (process.env.DISABLE_API_PROXY === "1") return [];
+    return [
+      {
+        source: "/api/v1/auth/:path*",
+        destination: `${API_PROXY_URL}/api/v1/auth/:path*`,
+      },
+      {
+        source: "/api/v1/me/:path*",
+        destination: `${API_PROXY_URL}/api/v1/me/:path*`,
+      },
+      {
+        source: "/api/v1/admin/:path*",
+        destination: `${API_PROXY_URL}/api/v1/admin/:path*`,
+      },
+      {
+        source: "/api/v1/site-config/:path*",
+        destination: `${API_PROXY_URL}/api/v1/site-config/:path*`,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

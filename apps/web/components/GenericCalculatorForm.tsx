@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import type {
   CalculatorDef,
   FieldDef,
@@ -11,6 +12,7 @@ import type {
 import { validateInput } from "@calc/shared";
 import { API_BASE } from "@/lib/api";
 import { getDictionary, interpolate } from "@/lib/i18n";
+import { getMe, saveCalculation } from "@/lib/session";
 
 type Values = Record<string, string>;
 
@@ -30,6 +32,34 @@ export default function GenericCalculatorForm({
   const [pending, setPending] = useState(false);
   const [errorText, setErrorText] = useState<string | null>(null);
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
+  const [signedIn, setSignedIn] = useState(false);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
+
+  useEffect(() => {
+    let alive = true;
+    getMe()
+      .then(() => alive && setSignedIn(true))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  async function onSave() {
+    if (!result) return;
+    setSaveState("saving");
+    try {
+      await saveCalculation({
+        slug: def.slug,
+        name: `${t(def.title)} — ${new Date().toLocaleDateString()}`,
+        inputs: values as unknown as Record<string, unknown>,
+        result,
+      });
+      setSaveState("saved");
+    } catch {
+      setSaveState("idle");
+    }
+  }
 
   function set(name: string, value: string) {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -142,6 +172,36 @@ export default function GenericCalculatorForm({
             <p className="text-xs leading-5" style={{ color: "var(--ink-faint)" }}>
               {t(def.note)}
             </p>
+          )}
+
+          {signedIn && (
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={onSave}
+                disabled={saveState !== "idle"}
+                className="rounded-full border px-5 py-2 text-xs font-bold transition hover:opacity-80 disabled:opacity-60"
+                style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
+              >
+                {saveState === "saving"
+                  ? "…"
+                  : saveState === "saved"
+                    ? locale === "ar"
+                      ? "تم الحفظ ✓"
+                      : "Saved ✓"
+                    : locale === "ar"
+                      ? "حفظ النتيجة"
+                      : "Save result"}
+              </button>
+              {saveState === "saved" && (
+                <Link
+                  href={`/${locale}/account`}
+                  className="text-xs font-semibold hover:accent-text"
+                >
+                  {locale === "ar" ? "عرض حسابي" : "View account"}
+                </Link>
+              )}
+            </div>
           )}
         </>
       )}
@@ -354,3 +414,4 @@ export function formatValue(
     }
   }
 }
+
