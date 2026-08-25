@@ -225,10 +225,11 @@ export class AdminController {
 }
 
 @Module({
-  imports: [PrismaModule],
+
   controllers: [AdminController],
   providers: [AdminService],
 })
 export class AdminModule {}
+
 
 

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: calc-api
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @calc/shared build && pnpm --filter @calc/engine build && pnpm --filter @calc/api exec prisma generate && pnpm --filter @calc/api exec nest build
+    preDeployCommand: pnpm --filter @calc/api exec prisma migrate deploy
+    startCommand: node apps/api/dist/main.js
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: WEB_ORIGIN
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: REDIS_URL
+        sync: false
