@@ -2,16 +2,17 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-24 text-center">
-      <p className="text-6xl" aria-hidden>
-        🧮
+    <div className="mx-auto max-w-6xl px-4 py-28 text-center">
+      <p className="index-numeral text-7xl font-bold" style={{ color: "var(--line)" }} aria-hidden>
+        404
       </p>
-      <h1 className="mt-4 text-2xl font-extrabold text-slate-900">
-        404 — Page not found / الصفحة غير موجودة
+      <h1 className="mt-4 text-xl font-bold">
+        Page not found · الصفحة غير موجودة
       </h1>
       <Link
         href="/en"
-        className="mt-6 inline-block rounded-lg bg-teal-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-teal-700"
+        className="mt-8 inline-block rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+        style={{ background: "var(--accent)" }}
       >
         Home / الرئيسية
       </Link>

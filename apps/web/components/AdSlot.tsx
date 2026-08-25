@@ -39,7 +39,7 @@ export default function AdSlot({ slotId, className = "" }: AdSlotProps) {
     return (
       <div
         aria-hidden="true"
-        className={`flex items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-100/70 text-xs text-slate-400 ${className}`}
+        className={`flex items-center justify-center rounded-lg border border-dashed border-[var(--line)] ${className}`}
       >
         Advertisement
       </div>
@@ -58,3 +58,4 @@ export default function AdSlot({ slotId, className = "" }: AdSlotProps) {
     />
   );
 }
+

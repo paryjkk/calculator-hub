@@ -71,9 +71,12 @@ export default function GenericCalculatorForm({
     }
   }
 
+  const inputClass =
+    "w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition focus:border-[var(--accent)]";
+
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate>
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className="space-y-6" noValidate>
+      <div className="grid gap-x-4 gap-y-5 sm:grid-cols-2">
         {def.fields.map((field) => (
           <FieldInput
             key={field.name}
@@ -83,6 +86,7 @@ export default function GenericCalculatorForm({
             onChange={(v) => set(field.name, v)}
             dict={dict}
             t={t}
+            inputClass={inputClass}
           />
         ))}
       </div>
@@ -90,7 +94,8 @@ export default function GenericCalculatorForm({
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-lg bg-teal-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 disabled:opacity-60 sm:w-auto"
+        className="rounded-full px-7 py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+        style={{ background: "var(--ink)" }}
       >
         {pending ? dict.calculating : dict.calculate}
       </button>
@@ -98,7 +103,8 @@ export default function GenericCalculatorForm({
       {errorText && (
         <div
           role="alert"
-          className="rounded-lg bg-red-50 px-4 py-2.5 text-sm font-medium text-red-700"
+          className="rounded-xl px-4 py-3 text-sm font-medium"
+          style={{ background: "#fdf0ef", color: "#b42318" }}
         >
           {errorText}
         </div>
@@ -106,24 +112,21 @@ export default function GenericCalculatorForm({
 
       {result && (
         <>
-          <dl
-            aria-live="polite"
-            className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <dl aria-live="polite" className="grid gap-px overflow-hidden rounded-xl sm:grid-cols-2 lg:grid-cols-3" style={{ background: "var(--line)", boxShadow: "inset 0 0 0 1px var(--line)" }}>
             {def.results.map((r) => (
               <div
                 key={r.key}
-                className={`rounded-xl border p-4 ${
-                  r.highlight
-                    ? "border-teal-200 bg-teal-50 ring-1 ring-teal-100"
-                    : "border-slate-200 bg-white"
-                }`}
+                className="p-4"
+                style={{
+                  background: r.highlight ? "var(--accent-wash)" : "var(--surface)",
+                }}
               >
-                <dt className="text-xs text-slate-500">{t(r.label)}</dt>
+                <dt className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: r.highlight ? "var(--accent-deep)" : "var(--ink-faint)" }}>
+                  {t(r.label)}
+                </dt>
                 <dd
-                  className={`mt-1 text-xl font-extrabold ${
-                    r.highlight ? "text-teal-800" : "text-slate-800"
-                  }`}
+                  className="mt-1 text-xl font-bold tabular-nums"
+                  style={{ color: r.highlight ? "var(--accent-deep)" : "var(--ink)" }}
                 >
                   {formatValue(result[r.key], r.format, dict)}
                 </dd>
@@ -136,7 +139,7 @@ export default function GenericCalculatorForm({
           )}
 
           {def.note && (
-            <p className="rounded-lg bg-slate-100 px-4 py-2.5 text-sm text-slate-600">
+            <p className="text-xs leading-5" style={{ color: "var(--ink-faint)" }}>
               {t(def.note)}
             </p>
           )}
@@ -160,9 +163,12 @@ function TableBlock({
   const capped = rows.length > 400 ? rows.slice(0, 400) : rows;
 
   return (
-    <div className="max-h-96 overflow-auto rounded-xl border border-slate-200">
+    <div className="max-h-96 overflow-auto rounded-xl border" style={{ borderColor: "var(--line)" }}>
       <table className="w-full text-sm">
-        <thead className="sticky top-0 bg-slate-100 text-xs uppercase tracking-wide text-slate-500">
+        <thead
+          className="sticky top-0 text-[11px] uppercase tracking-wide"
+          style={{ background: "var(--paper)", color: "var(--ink-faint)" }}
+        >
           <tr>
             {columns.map((c) => (
               <th key={c.key} scope="col" className="px-3 py-2 text-start font-bold">
@@ -173,9 +179,9 @@ function TableBlock({
         </thead>
         <tbody>
           {capped.map((row, i) => (
-            <tr key={i} className={i % 2 ? "bg-slate-50" : "bg-white"}>
+            <tr key={i} style={{ background: i % 2 ? "var(--paper)" : "var(--surface)" }}>
               {columns.map((c) => (
-                <td key={c.key} className="px-3 py-1.5 tabular-nums text-slate-700">
+                <td key={c.key} className="px-3 py-1.5 tabular-nums" style={{ color: "var(--ink-soft)" }}>
                   {typeof row[c.key] === "number"
                     ? (row[c.key] as number).toLocaleString("en-US")
                     : String(row[c.key] ?? "")}
@@ -196,6 +202,7 @@ function FieldInput({
   onChange,
   dict,
   t,
+  inputClass,
 }: {
   field: FieldDef;
   value: string;
@@ -203,10 +210,9 @@ function FieldInput({
   onChange: (v: string) => void;
   dict: ReturnType<typeof getDictionary>;
   t: (s: Localized) => string;
+  inputClass: string;
 }) {
   const id = `f-${field.name}`;
-  const inputClass =
-    "w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200";
 
   let control: React.ReactNode;
   if (field.type === "select") {
@@ -216,6 +222,7 @@ function FieldInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={inputClass}
+        style={{ background: "var(--surface)" }}
       >
         {value === "" && <option value="">—</option>}
         {(field.options ?? []).map((o) => (
@@ -250,26 +257,29 @@ function FieldInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={inputClass}
+        style={{ background: "var(--surface)", borderColor: "var(--line)", color: "var(--ink)" }}
       />
     );
   }
 
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-sm font-semibold text-slate-700">
+      <label htmlFor={id} className="mb-1.5 block text-sm font-semibold" style={{ color: "var(--ink-soft)" }}>
         {t(field.label)}
         {field.optional && (
-          <span className="ms-1 text-xs font-normal text-slate-400">
+          <span className="ms-1.5 text-xs font-normal" style={{ color: "var(--ink-faint)" }}>
             ({dict.optionalSuffix})
           </span>
         )}
       </label>
       {control}
       {field.suffix && (
-        <span className="mt-0.5 block text-xs text-slate-400">{t(field.suffix)}</span>
+        <span className="mt-1 block text-xs" style={{ color: "var(--ink-faint)" }}>
+          {t(field.suffix)}
+        </span>
       )}
       {error && (
-        <p className="mt-1 text-xs font-medium text-red-600">
+        <p className="mt-1 text-xs font-medium" style={{ color: "#b42318" }}>
           {dict.fieldErrors[error] ?? error}
         </p>
       )}

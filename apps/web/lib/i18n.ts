@@ -6,16 +6,30 @@ export const dictionary: Record<
   Locale,
   {
     brand: string;
+    tagline: string;
     navAll: string;
+    navAbout: string;
+    navContact: string;
+    navPrivacy: string;
+    navTerms: string;
     navLangSwitch: string;
+    account: string;
+    login: string;
+    register: string;
+    logout: string;
+    adminPanel: string;
+    footerBlurb: string;
+    footerExploreTitle: string;
+    footerLegalTitle: string;
     footerDisclaimer: string;
+    homeKicker: string;
     homeTitle: string;
     homeSubtitle: string;
-    whyTitle: string;
-    why1: string;
-    why2: string;
-    why3: string;
-    why4: string;
+    builtTitle: string;
+    built1: string;
+    built2: string;
+    built3: string;
+    built4: string;
     allCalculatorsTitle: string;
     allCalculatorsSubtitle: string;
     calculate: string;
@@ -28,6 +42,7 @@ export const dictionary: Record<
     ymd: string;
     weeksDays: string;
     hoursMinutes: string;
+    relatedTitle: string;
     fieldErrors: StringMap;
     errors: StringMap;
     weekdays: StringMap;
@@ -35,30 +50,46 @@ export const dictionary: Record<
 > = {
   en: {
     brand: "Calculator Hub",
-    navAll: "All Calculators",
+    tagline: "Every calculator you need. Nothing you don't.",
+    navAll: "Calculators",
+    navAbout: "About",
+    navContact: "Contact",
+    navPrivacy: "Privacy",
+    navTerms: "Terms",
     navLangSwitch: "العربية",
+    account: "Account",
+    login: "Sign in",
+    register: "Create account",
+    logout: "Sign out",
+    adminPanel: "Dashboard",
+    footerBlurb:
+      "Hand-built calculators for money, health, math and everyday conversions. Formulas in the open, results you can check.",
+    footerExploreTitle: "Explore",
+    footerLegalTitle: "Legal",
     footerDisclaimer:
-      "Estimates are for informational purposes only and do not constitute professional advice.",
-    homeTitle: "Free Online Calculators",
+      "Results are estimates for guidance only, not professional advice.",
+    homeKicker: "54 calculators · free forever",
+    homeTitle: "Every calculator you need.",
     homeSubtitle:
-      "Fast, accurate calculators for finance, health, math, conversions and more — powered by a dedicated calculation API. No sign-up, no clutter.",
-    whyTitle: "Why Calculator Hub?",
-    why1: "Formulas documented, tested, and independently derived",
-    why2: "Server-side calculation API — consistent results everywhere",
-    why3: "Bilingual English / العربية with full RTL support",
-    why4: "Free, responsive, accessible, no registration required",
-    allCalculatorsTitle: "All Calculators",
-    allCalculatorsSubtitle: "Every calculator, grouped by category.",
+      "Money, health, math and unit conversions — fast pages, exact formulas, and an Arabic interface that was designed, not translated.",
+    builtTitle: "Built properly",
+    built1: "Formulas derived from published standards — 89 unit tests guard them",
+    built2: "Computed on the server, so every device gets the same answer",
+    built3: "Arabic is a first-class interface, mirrored right-to-left by design",
+    built4: "No accounts needed, no pop-ups, no cookie circus",
+    allCalculatorsTitle: "All calculators",
+    allCalculatorsSubtitle: "Fifty-four of them, grouped the way you think.",
     calculate: "Calculate",
-    calculating: "Calculating…",
+    calculating: "Working…",
     optionalSuffix: "optional",
-    errorGeneric: "Something went wrong. Please check your inputs.",
+    errorGeneric: "Something didn't add up. Check your inputs and try again.",
     resultMissing: "—",
     yes: "Yes",
     no: "No",
     ymd: "{y}y {m}m {d}d",
     weeksDays: "{w}w {d}d",
     hoursMinutes: "{h}h {mm}min",
+    relatedTitle: "Related",
     fieldErrors: {
       required: "This field is required.",
       invalid_number: "Enter a valid number.",
@@ -107,29 +138,45 @@ export const dictionary: Record<
   },
   ar: {
     brand: "آلة الحاسبة",
-    navAll: "كل الحاسبات",
+    tagline: "كل حاسبة تحتاجها. ولا شيء زائد.",
+    navAll: "الحاسبات",
+    navAbout: "من نحن",
+    navContact: "اتصل بنا",
+    navPrivacy: "الخصوصية",
+    navTerms: "الشروط",
     navLangSwitch: "English",
-    footerDisclaimer: "النتائج للتقدير الإرشادي فقط ولا تُعد استشارة مهنية.",
-    homeTitle: "حاسبات مجانية عبر الإنترنت",
+    account: "حسابي",
+    login: "تسجيل الدخول",
+    register: "إنشاء حساب",
+    logout: "خروج",
+    adminPanel: "لوحة التحكم",
+    footerBlurb:
+      "حاسبات مصنوعة بعناية للمال والصحة والرياضيات وتحويل الوحدات — معادلات معلَنة ونتائج يمكنك التحقق منها بنفسك.",
+    footerExploreTitle: "تصفّح",
+    footerLegalTitle: "قانوني",
+    footerDisclaimer: "النتائج تقديرات إرشادية وليست استشارة مهنية.",
+    homeKicker: "٥٤ حاسبة · مجانية دائماً",
+    homeTitle: "كل حاسبة تحتاجها.",
     homeSubtitle:
-      "حاسبات سريعة ودقيقة للمالية والصحة والرياضيات والتحويلات وأكثر — مدعومة بواجهة حسابات مخصصة، بدون تسجيل أو إزعاج.",
-    whyTitle: "لماذا آلة الحاسبة؟",
-    why1: "معادلات موثقة ومختبرة ومشتقة باستقلالية",
-    why2: "واجهة حسابات على الخادم — نتائج متسقة في كل مكان",
-    why3: "ثنائية اللغة: العربية / English مع دعم كامل للكتابة من اليمين",
-    why4: "مجاني، متجاوب، ووصولي، بدون تسجيل",
+      "المال والصحة والرياضيات وتحويل الوحدات — صفحات سريعة، معادلات دقيقة، وواجهة عربية صُممت من الأساس لا تُرجمت.",
+    builtTitle: "صُنعت كما يجب",
+    built1: "معادلات مشتقة من مراجع منشورة — و٨٩ اختباراً آلياً تحرسها",
+    built2: "الحساب يجري على الخادم، فتحصل كل الأجهزة على الجواب نفسه",
+    built3: "العربية واجهة أصلية كاملة الاتجاه، ليست ترجمة لاحقة",
+    built4: "بدون حسابات، بدون نوافذ مزعجة، بدون سيرك الكوكيز",
     allCalculatorsTitle: "كل الحاسبات",
-    allCalculatorsSubtitle: "جميع الحاسبات مصنّفة حسب التصنيف.",
+    allCalculatorsSubtitle: "أربع وخمسون حاسبة، مصنّفة كما يفكر الناس.",
     calculate: "احسب",
-    calculating: "جارٍ الحساب…",
+    calculating: "يجري الحساب…",
     optionalSuffix: "اختياري",
-    errorGeneric: "حدث خطأ ما. تحقق من المدخلات وحاول مجددًا.",
+    errorGeneric: "شيء لم يستقم. تحقق من المدخلات وحاول مجدداً.",
     resultMissing: "—",
     yes: "نعم",
     no: "لا",
     ymd: "{y} سنة و{m} شهر و{d} يوم",
     weeksDays: "{w} أسبوع و{d} يوم",
     hoursMinutes: "{h} ساعة و{mm} دقيقة",
+    relatedTitle: "ذات صلة",
     fieldErrors: {
       required: "هذا الحقل مطلوب.",
       invalid_number: "أدخل رقمًا صحيحًا.",

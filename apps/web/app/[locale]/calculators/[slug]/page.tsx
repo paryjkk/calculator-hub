@@ -51,60 +51,63 @@ export default async function CalculatorPage({ params }: PageProps) {
   const t = tOf(locale);
   const related = CALCULATOR_DEFS.filter(
     (c) => c.category === def.category && c.slug !== def.slug
-  ).slice(0, 6);
+  ).slice(0, 5);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-10">
       <AdSlot
         slotId={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP}
-        className="mb-6 h-[90px] w-full md:h-[100px]"
+        className="mb-8 h-[90px] w-full md:h-[100px]"
       />
 
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-6">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-12">
         <div>
-          <nav aria-label="Breadcrumb" className="text-xs text-slate-400">
-            <Link href={`/${locale}`} className="hover:text-teal-600">
+          <nav aria-label="Breadcrumb" className="text-xs" style={{ color: "var(--ink-faint)" }}>
+            <Link href={`/${locale}`} className="hover:accent-text">
               {dict.brand}
             </Link>
-            {" / "}
-            <Link href={`/${locale}/calculators`} className="hover:text-teal-600">
+            <span className="mx-1.5">/</span>
+            <Link href={`/${locale}/calculators`} className="hover:accent-text">
               {dict.navAll}
             </Link>
           </nav>
 
-          <h1 className="mt-2 flex items-center gap-2 text-2xl font-extrabold text-slate-900 sm:text-3xl">
-            <span aria-hidden>{def.icon}</span>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             {t(def.title)}
           </h1>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+          <p className="mt-3 max-w-2xl text-[15px] leading-7" style={{ color: "var(--ink-soft)" }}>
             {t(def.description)}
           </p>
 
           <section
             aria-label={t(def.title)}
-            className="mt-6 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 sm:p-6"
+            className="mt-8 rounded-2xl p-5 sm:p-7"
+            style={{ background: "var(--surface)", boxShadow: "inset 0 0 0 1px var(--line)" }}
           >
             <GenericCalculatorForm def={def} locale={locale as Locale} />
           </section>
 
           <AdSlot
             slotId={process.env.NEXT_PUBLIC_ADSENSE_SLOT_BOTTOM}
-            className="mt-8 hidden h-[250px] w-full lg:block"
+            className="mt-10 hidden h-[250px] w-full lg:block"
           />
         </div>
 
-        <aside className="mt-10 lg:mt-0">
-          <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">
-            {locale === "ar" ? "حاسبات ذات صلة" : "Related calculators"}
+        <aside className="mt-12 lg:mt-0">
+          <h2
+            className="text-xs font-bold uppercase tracking-wider"
+            style={{ color: "var(--ink-faint)" }}
+          >
+            {dict.relatedTitle}
           </h2>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-4 space-y-px overflow-hidden rounded-xl" style={{ boxShadow: "inset 0 0 0 1px var(--line)", background: "var(--line)" }}>
             {related.map((r) => (
               <li key={r.slug}>
                 <Link
                   href={`/${locale}/calculators/${r.slug}`}
-                  className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-teal-300 hover:text-teal-700"
+                  className="block px-4 py-3 text-sm font-medium transition hover:bg-black/[.03]"
+                  style={{ background: "var(--surface)" }}
                 >
-                  <span aria-hidden>{r.icon}</span>
                   {t(r.title)}
                 </Link>
               </li>

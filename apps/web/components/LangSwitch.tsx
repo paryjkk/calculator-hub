@@ -10,7 +10,8 @@ export default function LangSwitch({ locale, label }: { locale: string; label: s
   return (
     <Link
       href={segments.join("/") || "/"}
-      className="rounded-lg px-3 py-2 text-sm font-bold text-teal-700 transition hover:bg-teal-50"
+      className="rounded-lg px-3 py-2 text-sm font-bold transition hover:bg-black/[.04]"
+      style={{ color: "var(--accent)" }}
       lang={locale === "ar" ? "en" : "ar"}
     >
       {label}
