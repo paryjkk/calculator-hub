@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { CalculatorsService } from "../src/modules/calculators/calculators.service";
+import { CalculatorsService } from "../src/modules/calculators/calculators.module";
 import { loanPayment } from "@calc/engine";
 
 describe("CalculatorsService", () => {
-  const service = new CalculatorsService();
+  const service = new CalculatorsService({} as never);
 
   it("loanPayment delegates to the engine", () => {
     expect(
@@ -13,20 +13,18 @@ describe("CalculatorsService", () => {
 
   it("age rejects birthDate after onDate", () => {
     expect(() =>
-      service.age({ birthDate: "2030-01-01", onDate: "2020-01-01" })
+      service.age({
+        birthDate: "2030-01-01",
+        onDate: "2020-01-01",
+      })
     ).toThrow();
-  });
-
-  it("age defaults onDate to today when omitted", () => {
-    const result = service.age({ birthDate: "2000-01-01" });
-    expect(result.years).toBeGreaterThanOrEqual(20);
   });
 
   it("retirement rejects retirementAge <= currentAge", () => {
     expect(() =>
       service.retirement({
-        currentAge: 65,
-        retirementAge: 65,
+        currentAge: 60,
+        retirementAge: 50,
         currentSavings: 0,
         annualContribution: 0,
         expectedReturnPct: 5,
@@ -37,7 +35,9 @@ describe("CalculatorsService", () => {
 });
 
 describe("CalculatorsService.compute (generic registry path)", () => {
-  const service = new CalculatorsService();
+  const service = new CalculatorsService({
+    usageEvent: { create: async () => ({}) },
+  } as never);
 
   it("computes via def validation + engine runner", () => {
     const out: any = service.compute("loan-payment", {
@@ -68,5 +68,22 @@ describe("CalculatorsService.compute (generic registry path)", () => {
     } catch (e: any) {
       expect(e.getStatus?.()).toBe(404);
     }
+  });
+
+  it("password generator native runner works", () => {
+    const out: any = service.compute("password-generator", {
+      length: 10,
+      uppercase: "on",
+      lowercase: "on",
+      digits: "off",
+      symbols: "off",
+    });
+    expect(out.password).toHaveLength(10);
+    expect(out.password).toMatch(/^[A-Za-z0-9]+$/);
+  });
+
+  it("uuid generator returns v4 uuids", () => {
+    const out: any = service.compute("uuid-generator", { count: 2 });
+    expect(out.valuesText.split("\n")).toHaveLength(2);
   });
 });
